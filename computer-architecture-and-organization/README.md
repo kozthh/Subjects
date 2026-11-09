@@ -4,6 +4,8 @@
 
 ## Topics
 
----
+- [Lecture notes](topics/01-lecture-notes.md)
 
 ## Assignments
+
+Assignments will be added here.
