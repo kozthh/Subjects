@@ -6,35 +6,35 @@
   <title>Database Systems: Lesson 1, NoSQL Models and MongoDB</title>
   <style>
     :root {
-      --bg: #f8f9fa;
-      --fg: #333333;
-      --muted: #666666;
-      --accent: #3b82f6;
-      --accent-hover: #1d4ed8;
-      --card: #f8f9fa;
-      --border: #e2e8f0;
-      --sidebar-bg: #f1f5f9;
-      --toc-item-hover: #cbd5e1;
-      --callout-extra: #fef3c7;
-      --callout-extra-border: #f5d98a;
-      --callout-correction: #d1e7dd;
-      --callout-correction-border: #84cc16;
+      --bg: #1b1028;
+      --fg: #f3e8ff;
+      --muted: #c4b5d8;
+      --accent: #c084fc;
+      --accent-hover: #e9d5ff;
+      --card: #2a1740;
+      --border: #543374;
+      --sidebar-bg: #241234;
+      --toc-item-hover: #3b1f59;
+      --callout-extra: #3b2454;
+      --callout-extra-border: #a855f7;
+      --callout-correction: #243b35;
+      --callout-correction-border: #4ade80;
     }
 
     [data-theme="dark"] {
-      --bg: #0f0f0f;
-      --fg: #e2e2e2;
-      --muted: #888888;
-      --accent: #60a5fa;
-      --accent-hover: #3b82f6;
-      --card: #1e293b;
-      --border: #334155;
-      --sidebar-bg: #0e1117;
-      --toc-item-hover: #1e293b;
-      --callout-extra: #374151;
-      --callout-extra-border: #6b7280;
-      --callout-correction: #052e16;
-      --callout-correction-border: #16a34a;
+      --bg: #1b1028;
+      --fg: #f3e8ff;
+      --muted: #c4b5d8;
+      --accent: #c084fc;
+      --accent-hover: #e9d5ff;
+      --card: #2a1740;
+      --border: #543374;
+      --sidebar-bg: #241234;
+      --toc-item-hover: #3b1f59;
+      --callout-extra: #3b2454;
+      --callout-extra-border: #a855f7;
+      --callout-correction: #243b35;
+      --callout-correction-border: #4ade80;
     }
 
     * {
@@ -51,6 +51,13 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
+    .page {
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+      max-width: 1200px;
+    }
+
     a {
       color: var(--accent);
       text-decoration: underline;
@@ -63,7 +70,6 @@
 
     /* Page container */
     .page {
-      max-width: 800px;
       margin: 0 auto;
       padding: 2rem 1.5rem;
     }
@@ -155,6 +161,10 @@
     }
 
     @media (max-width: 768px) {
+      .page {
+        display: block;
+      }
+
       .sidebar {
         position: fixed;
         top: 0;
@@ -220,79 +230,6 @@
       font-weight: 600;
       margin-top: 1rem;
       margin-bottom: 0.5rem;
-    }
-
-    /* Images */
-    figure {
-      margin: 1.5rem 0;
-    }
-
-    figure img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 6px;
-      loading: lazy;
-    }
-
-    figure figcaption {
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 0.5rem;
-      font-style: italic;
-    }
-
-    /* Lightbox */
-    .lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lightbox.open {
-      display: flex;
-    }
-
-    .lightbox img {
-      max-width: 90%;
-      max-height: 90%;
-      object-fit: contain;
-      border-radius: 4px;
-      box-shadow: 0 0 32px rgba(0, 0, 0, 0.5);
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 1.5rem;
-      right: 2rem;
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      border-radius: 50%;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      line-height: 40px;
-      text-align: center;
-      transition: background 0.2s;
-    }
-
-    .lightbox-close:hover {
-      background: rgba(255, 255, 255, 0.4);
-    }
-
-    /* Hide lightbox on print */
-    @media print {
-      .lightbox { display: none !important; }
     }
 
     /* Tables */
@@ -400,13 +337,13 @@
     .callout-extra {
       background-color: var(--callout-extra);
       border: 1px solid var(--callout-extra-border);
-      color: #78350f;
+      color: var(--fg);
     }
 
     .callout-correction {
       background-color: var(--callout-correction);
       border: 1px solid var(--callout-correction-border);
-      color: #166534;
+      color: var(--fg);
     }
 
     @media print {
@@ -505,18 +442,19 @@
 
         <h3>Data Model Example</h3>
 
-        ```json
-        {
-          "name": "Alice",
-          "age": 30,
-          "city": "New York",
-          "tags": ["engineering", "python"],
-          "metadata": {
-            "created": "2023-01-15T08:30:00Z",
-            "version": 1
-          }
-        }
-        ```
+        <div class="code-block">
+          <div class="code-header">JSON</div>
+          <div class="code-content"><pre><code>{
+  "name": "Alice",
+  "age": 30,
+  "city": "New York",
+  "tags": ["engineering", "python"],
+  "metadata": {
+    "created": "2023-01-15T08:30:00Z",
+    "version": 1
+  }
+}</code></pre></div>
+        </div>
       </section>
 
       <section id="mongodb-crud-operations">
@@ -565,12 +503,13 @@
 
         <h3>Example: Average Age by City</h3>
 
-        ```javascript
-        db.users.aggregate([
-          { $group: { _id: "$city", averageAge: { $avg: "$age" } } },
-          { $sort: { averageAge: -1 } }
-        ]);
-        ```
+        <div class="code-block">
+          <div class="code-header">JavaScript</div>
+          <div class="code-content"><pre><code>db.users.aggregate([
+  { $group: { _id: "$city", averageAge: { $avg: "$age" } } },
+  { $sort: { averageAge: -1 } }
+]);</code></pre></div>
+        </div>
       </section>
 
       <section id="indexing-strategies">
@@ -578,41 +517,46 @@
 
         <h3>Single Field Index</h3>
 
-        ```javascript
-        db.users.createIndex({ age: 1 });
-        ```
+        <div class="code-block">
+          <div class="code-header">JavaScript</div>
+          <div class="code-content"><pre><code>db.users.createIndex({ age: 1 });</code></pre></div>
+        </div>
 
         <h3>Compound Index</h3>
-        ```javascript
-        db.orders.createIndex({ customerId: 1, orderDate: -1 });
-        ```
+        <div class="code-block">
+          <div class="code-header">JavaScript</div>
+          <div class="code-content"><pre><code>db.orders.createIndex({ customerId: 1, orderDate: -1 });</code></pre></div>
+        </div>
 
         <h3>Text Index</h3>
-        ```javascript
-        db.products.createIndex({ name: "text" });
-        db.products.find({ name: { $search: "laptop" } });
-        ```
+        <div class="code-block">
+          <div class="code-header">JavaScript</div>
+          <div class="code-content"><pre><code>db.products.createIndex({ name: "text" });
+db.products.find({ name: { $search: "laptop" } });</code></pre></div>
+        </div>
 
         <h3>Geospatial Index</h3>
-        ```javascript
-        db.locations.createIndex({ coordinates: "2d" });
-        db.locations.find({
-          coordinates: {
-            $near: { $maxDistance: 1000, $geometry: { type: "Point", coordinates: [0, 0] } }
-          }
-        });
-        ```
+        <div class="code-block">
+          <div class="code-header">JavaScript</div>
+          <div class="code-content"><pre><code>db.locations.createIndex({ coordinates: "2d" });
+db.locations.find({
+  coordinates: {
+    $near: { $maxDistance: 1000, $geometry: { type: "Point", coordinates: [0, 0] } }
+  }
+});</code></pre></div>
+        </div>
       </section>
 
       <section id="administration">
         <h2>Administration</h2>
 
         <h3>Common Commands</h3>
-        ```javascript
-        db.adminCommand({ listDatabases: 1 });
-        db.adminCommand({ collMod: "users", validator: { $jsonSchema: { bsonType: "object", required: ["name", "email"] } } });
-        db.adminCommand({ reIndex: "products" });
-        ```
+        <div class="code-block">
+          <div class="code-header">JavaScript</div>
+          <div class="code-content"><pre><code>db.adminCommand({ listDatabases: 1 });
+db.adminCommand({ collMod: "users", validator: { $jsonSchema: { bsonType: "object", required: ["name", "email"] } } });
+db.adminCommand({ reIndex: "products" });</code></pre></div>
+        </div>
 
         <h3>Backup and Restore</h3>
         <p>- <code>mongodump</code> / <code>mongorestore</code> - Logical backups</p>
@@ -703,20 +647,13 @@
         <details class="quick-review">
           <summary>Click to reveal answers</summary>
 
-          **Q1: What are the four main types of NoSQL models?**
-          - Document, Key-Value, Column-Family, Graph
-
-          **Q2: How does MongoDB differ from RDBMS in terms of schema?**
-          - MongoDB has a flexible/dynamic schema; RDBMS has a fixed schema.
-
-          **Q3: When would you choose embedding over referencing in MongoDB?**
-          - Choose embedding when related data is always accessed together or is "one-to-few".
-
-          **Q4: What does the $lookup aggregation stage do?**
-          - It performs a left outer join to another collection.
-
-          **Q5: Since which MongoDB version are multi-document ACID transactions available?**
-          - Version 4.0
+          <ol>
+            <li><strong>What are the four main types of NoSQL models?</strong><br>Document, Key-Value, Column-Family, Graph</li>
+            <li><strong>How does MongoDB differ from RDBMS in terms of schema?</strong><br>MongoDB has a flexible/dynamic schema; RDBMS has a fixed schema.</li>
+            <li><strong>When would you choose embedding over referencing in MongoDB?</strong><br>Choose embedding when related data is always accessed together or is "one-to-few".</li>
+            <li><strong>What does the $lookup aggregation stage do?</strong><br>It performs a left outer join to another collection.</li>
+            <li><strong>Since which MongoDB version are multi-document ACID transactions available?</strong><br>Version 4.0</li>
+          </ol>
         </details>
       </section>
     </main>
@@ -726,48 +663,7 @@
     </footer>
   </div>
 
-  <!-- Lightbox HTML -->
-  <div class="lightbox" id="lightbox" onclick="this.classList.remove('open')" role="dialog" aria-modal="true">
-    <button class="lightbox-close" aria-label="Close lightbox" onclick="event.stopPropagation(); document.getElementById('lightbox').classList.remove('open')">×</button>
-    <div class="slide-text" data-slide="?">Expanded image</div>
-  </div>
-
   <script>
-    // Lightbox functionality
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = lightbox.querySelector('img');
-
-    document.querySelectorAll('figure img').forEach(img => {
-      img.addEventListener('click', (e) => {
-        lightboxImg.src = img.src;
-        lightboxImg.alt = img.alt;
-        lightbox.classList.add('open');
-      });
-    });
-
-        document.querySelectorAll('.gallery-card img').forEach(img => {
-      img.addEventListener('click', (e) => {
-        const lightboxNum = img.parentElement.getAttribute('onclick').match(/lightbox-(\d+)/)[1];
-        lightboxImg.src = img.src;
-        lightboxImg.alt = img.alt;
-        document.getElementById('lightbox-' + lightboxNum).classList.add('open');
-      });
-    });
-
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && lightbox.classList.contains('open')) {
-        lightbox.classList.remove('open');
-      }
-    });
-
-    // Close lightbox on overlay click (already handled above)
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        lightbox.classList.remove('open');
-      }
-    });
-
     // Theme support
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
     const html = document.documentElement;
