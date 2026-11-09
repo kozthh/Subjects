@@ -283,34 +283,6 @@ Client, Mongos, Shard 1 (A-M) and Shard 2 (N-Z), with a Config Server and the st
 Vocabulary list: mongod, mongos, config servers, replica set, shard, driver.
 
 
-## Image Index
-
-| # | Slide | Context | Image |
-|---|-------|---------|-------|
-| 1 | Four Major NoSQL Models | Overview of key-value (Redis), document (MongoDB), wide-column (Cassandra), and graph (Neo4j), with a use for each. Memory cue: KEY, DOCUMENT, COLUMNS, RELATIONSHIPS. | ![](../assets/lesson-1/slide-1.svg) |
-| 2 | Wide-Column Database Model | Definition, key characteristics (row key, column families, rows can differ), and how it works (USERS and ORDERS example). | ![](../assets/lesson-1/slide-2.svg) |
-| 3 | Key-Value Model: How It Works | Example records (session:U101, cart:U101, theme:U101), design notes, and Redis as the example product. | ![](../assets/lesson-1/slide-3.svg) |
-| 4 | Wide-Column: Sample Databases | Customer activity sample data, example databases (Cassandra, HBase, Bigtable, ScyllaDB), advantages and disadvantages. | ![](../assets/lesson-1/slide-4.svg) |
-| 5 | Document Model: Nested and Flexible Data | The customer document (Mika Reyes) showing a nested object (address) and an array (interests), plus BSON. | ![](../assets/lesson-1/slide-5.svg) |
-| 6 | Key-Value: Sample Databases | Sample key-value data, Redis and DynamoDB, advantages and disadvantages. | ![](../assets/lesson-1/slide-6.svg) |
-| 7 | Graph Database Model | Definition (nodes, edges, properties), key characteristics, how it works, and the ANA FRIENDS WITH MARK example. | ![](../assets/lesson-1/slide-7.svg) |
-| 8 | Graph Model: Nodes and Edges | Defines node, edge, and property with examples, and use cases (social networks, recommendations, fraud links). | ![](../assets/lesson-1/slide-8.svg) |
-| 9 | Graph: Sample Databases | Sample graph (Ana, Mark, Lisa), Neo4j and Amazon Neptune, advantages and disadvantages. | ![](../assets/lesson-1/slide-9.svg) |
-| 10 | Key-Value and Document Models | Recap slide with user001 and user002 as key-value, a student document as JSON, and Redis vs MongoDB. | ![](../assets/lesson-1/slide-10.svg) |
-| 11 | Wide-Column and Graph Models | Recap slide with Cassandra for event data and large-scale workloads, and Neo4j for friends, recommendations, and fraud links. | ![](../assets/lesson-1/slide-11.svg) |
-| 12 | Scenario Question | A catalog where some products have size and color and others have warranty and specs. Answer: document model. | ![](../assets/lesson-1/slide-12.svg) |
-| 13 | MongoDB: Document-Oriented NoSQL | Database, collection, document, fields hierarchy, and BSON = Binary JSON. | ![](../assets/lesson-1/slide-13.svg) |
-| 14 | MongoDB Architecture | Request flow (application, driver, server, database, collection) and the five key components. | ![](../assets/lesson-1/slide-14.svg) |
-| 15 | MongoDB Structure & Vocabulary | Maps relational terms to MongoDB (table to collection, row to document, column to field, primary key to _id). | ![](../assets/lesson-1/slide-15.svg) |
-| 16 | NoSQL Does Not Mean "No Rules" | A flexible schema still needs careful design, validation, and choosing the model by requirements. | ![](../assets/lesson-1/slide-16.svg) |
-| 17 | Horizontal Scaling: Partitioning | Splitting a dataset across Servers A, B, and C (sharding in MongoDB), with benefits and considerations. | ![](../assets/lesson-1/slide-17.svg) |
-| 18 | MongoDB Document: Important Details | The Ana Cruz document: _id, fields, an array (skills), a Boolean (active), and BSON data types. | ![](../assets/lesson-1/slide-18.svg) |
-| 19 | MongoDB Architecture: Standalone and Replica Set | One server vs a Primary with two Secondaries, the failover scenario, and replication vs sharding. | ![](../assets/lesson-1/slide-19.svg) |
-| 20 | MongoDB Architecture: Sharded Cluster | Client, Mongos, Shard 1 (A-M) and Shard 2 (N-Z), with a Config Server and the student example. | ![](../assets/lesson-1/slide-20.svg) |
-| 21 | MongoDB Components: What Each Does | Vocabulary list: mongod, mongos, config servers, replica set, shard, driver. | ![](../assets/lesson-1/slide-21.svg) |
-| 22 | Lesson Recap | Topic 1 (relational vs NoSQL) and Topic 2 (the four models and the MongoDB hierarchy). | ![](../assets/lesson-1/slide-22.svg) |
-| 23 | MongoDB CRUD Operations | Create, Read, Update, Delete with insertOne(), find(), updateOne(), and deleteOne(). | ![](../assets/lesson-1/slide-23.svg) |
-
 ## Appendix: Slide Image Files
 
 This appendix lists all slide image files available in the `assets/lesson-1/` directory for reference.

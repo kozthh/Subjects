@@ -462,7 +462,6 @@
           <li><a href="#comparison-mongodb-vs-rdbms">Comparison: MongoDB vs. RDBMS</a></li>
           <li><a href="#extra-note-common-migration-pitfalls">Extra Note: Common Migration Pitfalls</a></li>
           <li><a href="#correction-terminology-clarification">Correction: Terminology Clarification</a></li>
-<li><a href="#image-index">Image Index</a></li>
 </ul>
       </div>
     </nav>
@@ -697,105 +696,7 @@
         </div>
       </section>
 
-      <section id="image-index">
-        <h2>Image Index</h2>
-        <p>Thumbnail gallery of all 23 slide images from Lesson 1.</p>
-        <div class="gallery-grid">
-  <div class="gallery-card" onclick="document.getElementById('lightbox-1').classList.add('open')">
-    <div class="slide-text" data-slide="?">Overview of key-value (Redis), document (MongoDB), wide-column (Cassandra), and graph (Neo4j), with a use for each. Memory cue: KEY, DOCUMENT, COLUMNS, RELATIONSHIPS.</div>
-    <div class="gallery-card-caption">Four Major NoSQL Models</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-2').classList.add('open')">
-    <div class="slide-text" data-slide="?">Definition, key characteristics (row key, column families, rows can differ), and how it works (USERS and ORDERS example).</div>
-    <div class="gallery-card-caption">Wide-Column Database Model</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-3').classList.add('open')">
-    <div class="slide-text" data-slide="?">Example records (session:U101, cart:U101, theme:U101), design notes, and Redis as the example product.</div>
-    <div class="gallery-card-caption">Key-Value Model: How It Works</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-4').classList.add('open')">
-    <div class="slide-text" data-slide="?">Customer activity sample data, example databases (Cassandra, HBase, Bigtable, ScyllaDB), advantages and disadvantages.</div>
-    <div class="gallery-card-caption">Wide-Column: Sample Databases</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-5').classList.add('open')">
-    <div class="slide-text" data-slide="?">The customer document (Mika Reyes) showing a nested object (address) and an array (interests), plus BSON.</div>
-    <div class="gallery-card-caption">Document Model: Nested and Flexible Data</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-6').classList.add('open')">
-    <div class="slide-text" data-slide="?">Sample key-value data, Redis and DynamoDB, advantages and disadvantages.</div>
-    <div class="gallery-card-caption">Key-Value: Sample Databases</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-7').classList.add('open')">
-    <div class="slide-text" data-slide="?">Definition (nodes, edges, properties), key characteristics, how it works, and the ANA FRIENDS WITH MARK example.</div>
-    <div class="gallery-card-caption">Graph Database Model</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-8').classList.add('open')">
-    <div class="slide-text" data-slide="?">Defines node, edge, and property with examples, and use cases (social networks, recommendations, fraud links).</div>
-    <div class="gallery-card-caption">Graph Model: Nodes and Edges</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-9').classList.add('open')">
-    <div class="slide-text" data-slide="?">Sample graph (Ana, Mark, Lisa), Neo4j and Amazon Neptune, advantages and disadvantages.</div>
-    <div class="gallery-card-caption">Graph: Sample Databases</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-10').classList.add('open')">
-    <div class="slide-text" data-slide="?">Recap slide with user001 and user002 as key-value, a student document as JSON, and Redis vs MongoDB.</div>
-    <div class="gallery-card-caption">Key-Value and Document Models</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-11').classList.add('open')">
-    <div class="slide-text" data-slide="?">Recap slide with Cassandra for event data and large-scale workloads, and Neo4j for friends, recommendations, and fraud links.</div>
-    <div class="gallery-card-caption">Wide-Column and Graph Models</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-12').classList.add('open')">
-    <div class="slide-text" data-slide="?">A catalog where some products have size and color and others have warranty and specs. Answer: document model.</div>
-    <div class="gallery-card-caption">Scenario Question</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-13').classList.add('open')">
-    <div class="slide-text" data-slide="?">Database, collection, document, fields hierarchy, and BSON = Binary JSON.</div>
-    <div class="gallery-card-caption">MongoDB: Document-Oriented NoSQL</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-14').classList.add('open')">
-    <div class="slide-text" data-slide="?">Request flow (application, driver, server, database, collection) and the five key components.</div>
-    <div class="gallery-card-caption">MongoDB Architecture</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-15').classList.add('open')">
-    <div class="slide-text" data-slide="?">Maps relational terms to MongoDB (table to collection, row to document, column to field, primary key to _id).</div>
-    <div class="gallery-card-caption">MongoDB Structure & Vocabulary</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-16').classList.add('open')">
-    <div class="slide-text" data-slide="?">A flexible schema still needs careful design, validation, and choosing the model by requirements.</div>
-    <div class="gallery-card-caption">NoSQL Does Not Mean "No Rules"</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-17').classList.add('open')">
-    <div class="slide-text" data-slide="?">Splitting a dataset across Servers A, B, and C (sharding in MongoDB), with benefits and considerations.</div>
-    <div class="gallery-card-caption">Horizontal Scaling: Partitioning</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-18').classList.add('open')">
-    <div class="slide-text" data-slide="?">The Ana Cruz document: _id, fields, an array (skills), a Boolean (active), and BSON data types.</div>
-    <div class="gallery-card-caption">MongoDB Document: Important Details</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-19').classList.add('open')">
-    <div class="slide-text" data-slide="?">One server vs a Primary with two Secondaries, the failover scenario, and replication vs sharding.</div>
-    <div class="gallery-card-caption">MongoDB Architecture: Standalone and Replica Set</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-20').classList.add('open')">
-    <div class="slide-text" data-slide="?">Client, Mongos, Shard 1 (A-M) and Shard 2 (N-Z), with a Config Server and the student example.</div>
-    <div class="gallery-card-caption">MongoDB Architecture: Sharded Cluster</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-21').classList.add('open')">
-    <div class="slide-text" data-slide="?">Vocabulary list: mongod, mongos, config servers, replica set, shard, driver.</div>
-    <div class="gallery-card-caption">MongoDB Components: What Each Does</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-22').classList.add('open')">
-    <div class="slide-text" data-slide="?">Topic 1 (relational vs NoSQL) and Topic 2 (the four models and the MongoDB hierarchy).</div>
-    <div class="gallery-card-caption">Lesson Recap</div>
-  </div>
-  <div class="gallery-card" onclick="document.getElementById('lightbox-23').classList.add('open')">
-    <div class="slide-text" data-slide="?">Create, Read, Update, Delete with insertOne(), find(), updateOne(), and deleteOne().</div>
-    <div class="gallery-card-caption">MongoDB CRUD Operations</div>
-  </div>
-</div>
-      </section>
-
+      
       <section id="quick-review">
         <h2>Quick Review</h2>
 
@@ -844,8 +745,7 @@
       });
     });
 
-    // Gallery card images
-    document.querySelectorAll('.gallery-card img').forEach(img => {
+        document.querySelectorAll('.gallery-card img').forEach(img => {
       img.addEventListener('click', (e) => {
         const lightboxNum = img.parentElement.getAttribute('onclick').match(/lightbox-(\d+)/)[1];
         lightboxImg.src = img.src;
