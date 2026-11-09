@@ -1,3 +1,13 @@
+1
+
+1
+1
+1
+1
+1
+1
+11
+1
 # Computer Architecture and Organization: Lecture Notes
 
 Study notes compiled from the lecture slides on **Computer Architecture and Organization**.
