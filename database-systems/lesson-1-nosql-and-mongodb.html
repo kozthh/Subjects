@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Systems: Lesson 1, NoSQL Models and MongoDB</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --fg: #333333;
+      --muted: #666666;
+      --accent: #3b82f6;
+      --accent-hover: #1d4ed8;
+      --card: #f8f9fa;
+      --border: #e2e8f0;
+      --sidebar-bg: #f1f5f9;
+      --toc-item-hover: #cbd5e1;
+      --callout-extra: #fef3c7;
+      --callout-extra-border: #f5d98a;
+      --callout-correction: #d1e7dd;
+      --callout-correction-border: #84cc16;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f0f0f;
+      --fg: #e2e2e2;
+      --muted: #888888;
+      --accent: #60a5fa;
+      --accent-hover: #3b82f6;
+      --card: #1e293b;
+      --border: #334155;
+      --sidebar-bg: #0e1117;
+      --toc-item-hover: #1e293b;
+      --callout-extra: #374151;
+      --callout-extra-border: #6b7280;
+      --callout-correction: #052e16;
+      --callout-correction-border: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", sans-serif;
+      background-color: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* Page container */
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Sidebar TOC */
+    @media (min-width: 769px) {
+      .sidebar {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 2rem;
+        align-self: flex-start;
+        flex-shrink: 0;
+        width: 280px;
+        margin-right: 2rem;
+      }
+    }
+
+    
+    .sidebar.closed {
+        left: -280px;
+        transition: left 0.3s;
+    }
+    .sidebar.closed .toc {
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+    }
+    .sidebar-open .sidebar {
+        left: 0;
+    }
+    .sidebar-open body {
+        margin-left: 0;
+    }
+.toc {
+      background-color: var(--sidebar-bg);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .toc h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc li {
+      margin: 0.5rem 0;
+    }
+
+    .toc a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      display: block;
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .toc a:hover {
+      background-color: var(--toc-item-hover);
+      color: var(--fg);
+    }
+
+    .toc a.active {
+      color: var(--accent);
+      font-weight: 500;
+      background-color: rgba(37, 99, 235, 0.1);
+    }
+
+    /* Mobile menu button */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        height: 100vh;
+        width: 280px;
+        z-index: 100;
+        transition: left 0.3s;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      
+    .sidebar.open + .main-content {
+        margin-left: 280px;
+        transition: margin-left 0.3s;
+    }
+.main-content {
+        margin-left: 0;
+        padding-top: 4rem;
+      }
+
+      .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 101;
+      }
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      padding-top: 0;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Images */
+    figure {
+      margin: 1.5rem 0;
+    }
+
+    figure img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      loading: lazy;
+    }
+
+    figure figcaption {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 0 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 40px;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Hide lightbox on print */
+    @media print {
+      .lightbox { display: none !important; }
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background-color: var(--card);
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      tr { margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 4px; }
+      td { border: none; padding: 0.5rem; position: relative; }
+      td::before {
+        position: absolute;
+        top: 0; left: 0; width: 50%;
+        white-space: nowrap; content: attr(data-label);
+        font-weight: 600; color: var(--muted);
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Code blocks */
+    .code-block {
+      background-color: var(--card);
+      border-radius: 6px;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      background-color: var(--border);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px 6px 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .code-header .copy-btn {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 0;
+      font-family: inherit;
+    }
+
+    .code-header .copy-btn:hover {
+      color: var(--fg);
+    }
+
+    .code-content {
+      padding: 0.75rem;
+      font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", monospace;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      color: var(--fg);
+      overflow-x: auto;
+    }
+
+    .code-content pre {
+      margin: 0;
+      padding: 0;
+    }
+
+    .code-content code {
+      background: none;
+      padding: 0;
+    }
+
+    /* Callout boxes */
+    .callout {
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .callout-extra {
+      background-color: var(--callout-extra);
+      border: 1px solid var(--callout-extra-border);
+      color: #78350f;
+    }
+
+    .callout-correction {
+      background-color: var(--callout-correction);
+      border: 1px solid var(--callout-correction-border);
+      color: #166534;
+    }
+
+    @media print {
+      .callout { display: none; }
+    }
+
+    /* Quick Review */
+    .quick-review details {
+      margin: 1.5rem 0;
+    }
+
+    .quick-review summary {
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .quick-review summary::-webkit-details-marker {
+      display: none;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <!-- Mobile menu toggle -->
+  <button class="menu-toggle" aria-label="Open table of contents" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+  <div class="page">
+    <nav class="sidebar" id="sidebar" aria-label="Table of contents">
+      <div class="toc">
+        <h2>Table of Contents</h2>
+    <button class="sidebar-close" aria-label="Close sidebar" onclick="document.getElementById('sidebar').classList.add('closed')">✕</button>
+
+        <ul>
+          <li><a href="#introduction">Introduction</a></li>
+          <li><a href="#types-of-nosql-models">Types of NoSQL Models</a></li>
+          <li><a href="#mongodb-overview">MongoDB Overview</a></li>
+          <li><a href="#core-concepts">Core Concepts</a></li>
+          <li><a href="#data-model-example">Data Model Example</a></li>
+          <li><a href="#mongodb-crud-operations">MongoDB CRUD Operations</a></li>
+          <li><a href="#data-modeling-patterns">Data Modeling Patterns</a></li>
+          <li><a href="#aggregation-framework">Aggregation Framework</a></li>
+          <li><a href="#indexing-strategies">Indexing Strategies</a></li>
+          <li><a href="#administration">Administration</a></li>
+          <li><a href="#comparison-mongodb-vs-rdbms">Comparison: MongoDB vs. RDBMS</a></li>
+          <li><a href="#extra-note-common-migration-pitfalls">Extra Note: Common Migration Pitfalls</a></li>
+          <li><a href="#correction-terminology-clarification">Correction: Terminology Clarification</a></li>
+<li><a href="#image-index">Image Index</a></li>
+</ul>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <h1>NoSQL Models and MongoDB</h1>
+
+      <section id="introduction">
+        <p>NoSQL databases emerged to address the limitations of relational databases in handling modern web-scale data workloads. Unlike RDBMS, NoSQL systems sacrifice strict ACID compliance for scalability, flexibility, and performance.</p>
+        
+      </section>
+
+      <section id="types-of-nosql-models">
+        <h2>Types of NoSQL Models</h2>
+
+        <h3>Document Model</h3>
+        <p>The document model stores data as semi-structured documents, typically in JSON, BSON, or XML format. Each document can have a different structure, enabling flexible schemas.</p>
+
+        <h3>Key-Value Store</h3>
+        <p>Simple mapping of unique keys to values. High performance for read/write operations. Use case: caching, session storage.</p>
+
+        <h3>Column-Family Store</h3>
+        <p>Data organized into column families, optimized for reading and writing large datasets across many servers. Use case: analytics, time-series data.</p>
+
+        <h3>Graph Model</h3>
+        <p>Nodes and edges representing entities and relationships. Use case: social networks, recommendation engines.</p>
+        
+      </section>
+
+      <section id="mongodb-overview">
+        <h2>MongoDB Overview</h2>
+        <p>MongoDB is a document-oriented NoSQL database. It stores data in flexible JSON-like documents with optional schemas.</p>
+
+        <h3>Core Concepts</h3>
+        <ul>
+          <li><strong>Collection:</strong> Group of documents (analogous to RDBMS tables)</li>
+          <li><strong>Document:</strong> Set of key-value pairs (analogous to RDBMS rows)</li>
+          <li><strong>Field:</strong> Key-value pair within a document</li>
+          <li><strong>Index:</strong> Special data structure that stores a small portion of the collection's data set in an easy-to-traverse form</li>
+        </ul>
+
+        <h3>Data Model Example</h3>
+
+        ```json
+        {
+          "name": "Alice",
+          "age": 30,
+          "city": "New York",
+          "tags": ["engineering", "python"],
+          "metadata": {
+            "created": "2023-01-15T08:30:00Z",
+            "version": 1
+          }
+        }
+        ```
+      </section>
+
+      <section id="mongodb-crud-operations">
+        <h2>MongoDB CRUD Operations</h2>
+
+        <h3>Create</h3>
+        <p>Insert a single document or multiple documents into a collection.</p>
+
+        <h3>Read</h3>
+        <p>Query documents using filter criteria, projection, sorting, and limiting.</p>
+
+        <h3>Update</h3>
+        <p>Modify existing documents using update operators ($set, $inc, $unset, etc.).</p>
+
+        <h3>Delete</h3>
+        <p>Remove documents from a collection.</p>
+        
+      </section>
+
+      <section id="data-modeling-patterns">
+        <h2>Data Modeling Patterns</h2>
+
+        <h3>Embedding vs. Referencing</h3>
+        <ul>
+          <li><strong>Embedding:</strong> Store related data within a single document. Use when the related data is always accessed together or the "one-to-few" relationship.</li>
+          <li><strong>Referencing:</strong> Store related data in separate documents and use references (IDs). Use when the related data is accessed independently or the "one-to-many" relationship is unbounded.</li>
+        </ul>
+
+        <h3>Schema Evolution</h3>
+        <p>MongoDB's flexible schema allows adding fields without downtime. Use <code>db.collection.updateMany()</code> with <code>$set</code> to populate new fields across existing documents.</p>
+        
+      </section>
+
+      <section id="aggregation-framework">
+        <h2>Aggregation Framework</h2>
+        <p>The aggregation pipeline processes documents through a series of stages to return computed results.</p>
+
+        <h3>Common Stages</h3>
+        <ul>
+          <li><code>$match:</code> Filter documents (similar to <code>find</code>)</li>
+          <li><code>$group:</code> Group documents and apply aggregations</li>
+          <li><code>$sort:</code> Sort documents by specified fields</li>
+          <li><code>$project:</code> Reshape documents (add/remove fields)</li>
+          <li><code>$lookup:</code> Join with another collection</li>
+        </ul>
+
+        <h3>Example: Average Age by City</h3>
+
+        ```javascript
+        db.users.aggregate([
+          { $group: { _id: "$city", averageAge: { $avg: "$age" } } },
+          { $sort: { averageAge: -1 } }
+        ]);
+        ```
+      </section>
+
+      <section id="indexing-strategies">
+        <h2>Indexing Strategies</h2>
+
+        <h3>Single Field Index</h3>
+
+        ```javascript
+        db.users.createIndex({ age: 1 });
+        ```
+
+        <h3>Compound Index</h3>
+        ```javascript
+        db.orders.createIndex({ customerId: 1, orderDate: -1 });
+        ```
+
+        <h3>Text Index</h3>
+        ```javascript
+        db.products.createIndex({ name: "text" });
+        db.products.find({ name: { $search: "laptop" } });
+        ```
+
+        <h3>Geospatial Index</h3>
+        ```javascript
+        db.locations.createIndex({ coordinates: "2d" });
+        db.locations.find({
+          coordinates: {
+            $near: { $maxDistance: 1000, $geometry: { type: "Point", coordinates: [0, 0] } }
+          }
+        });
+        ```
+      </section>
+
+      <section id="administration">
+        <h2>Administration</h2>
+
+        <h3>Common Commands</h3>
+        ```javascript
+        db.adminCommand({ listDatabases: 1 });
+        db.adminCommand({ collMod: "users", validator: { $jsonSchema: { bsonType: "object", required: ["name", "email"] } } });
+        db.adminCommand({ reIndex: "products" });
+        ```
+
+        <h3>Backup and Restore</h3>
+        <p>- <code>mongodump</code> / <code>mongorestore</code> - Logical backups</p>
+        <p>- <code>mongosh</code> - Interactive JavaScript shell</p>
+        <p>- Atlas snapshots - Cloud-backed backups</p>
+        
+      </section>
+
+      <section id="comparison-mongodb-vs-rdbms">
+        <h2>Comparison: MongoDB vs. RDBMS</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th data-label="Feature">Feature</th>
+              <th data-label="MongoDB">MongoDB</th>
+              <th data-label="RDBMS">RDBMS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Data Model</td>
+              <td>Document (JSON-like)</td>
+              <td>Relational (tables, rows, columns)</td>
+            </tr>
+            <tr>
+              <td>Schema</td>
+              <td>Flexible/Dynamic</td>
+              <td>Fixed/Strict</td>
+            </tr>
+            <tr>
+              <td>Scaling</td>
+              <td>Horizontal (sharding)</td>
+              <td>Vertical (mostly)</td>
+            </tr>
+            <tr>
+              <td>Queries</td>
+              <td>JSON-based queries</td>
+              <td>SQL</td>
+            </tr>
+            <tr>
+              <td>Transactions</td>
+              <td>Multi-document ACID (since 4.0)</td>
+              <td>Row-level ACID</td>
+            </tr>
+            <tr>
+              <td>Relationships</td>
+              <td>Embedding or referencing</td>
+              <td>Foreign keys, joins</td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </section>
+
+      <section id="extra-note-common-migration-pitfalls">
+        <h2>Extra Note: Common Migration Pitfalls</h2>
+        <p>When migrating from RDBMS to MongoDB:</p>
+        <ol>
+          <li><strong>Over-normalizing:</strong> Avoid creating too many collections with references; consider embedding for frequent joint access.</li>
+          <li><strong>Assuming joins are free:</strong> DB joins are expensive; denormalize or use application-level joins.</li>
+          <li><strong>Under-utilizing indexes:</strong> Without proper indexes, queries scan entire collections.</li>
+          <li><strong>Ignoring schema evolution:</strong> Plan for field additions/removals; use compatible updates.</li>
+        </ol>
+        
+        <div class="callout callout-extra">
+          <strong>Extra Note:</strong> These are my own additions (Extra) and corrections (Correction) to the professor's content. They help me distinguish my notes from the original material.
+        </div>
+      </section>
+
+      <section id="correction-terminology-clarification">
+        <h2>Correction: Terminology Clarification</h2>
+        <ul>
+          <li>"NoSQL" does not mean "No SQL"; it means "not only SQL" or "non-relational".</li>
+          <li>ACID in NoSQL: MongoDB provides multi-document ACID transactions since version 4.0, but not all NoSQL systems guarantee this.</li>
+          <li>CAP Theorem: No system can simultaneously provide Consistency, Availability, and Partition tolerance; trade-offs are inherent.</li>
+        </ul>
+        
+        <div class="callout callout-correction">
+          <strong>Correction:</strong> These are my own additions (Extra) and corrections (Correction) to the professor's content. They help me distinguish my notes from the original material.
+        </div>
+      </section>
+
+      <section id="image-index">
+        <h2>Image Index</h2>
+        <p>Thumbnail gallery of all 23 slide images from Lesson 1.</p>
+        <div class="gallery-grid">
+  <div class="gallery-card" onclick="document.getElementById('lightbox-1').classList.add('open')">
+    <div class="slide-text" data-slide="?">Overview of key-value (Redis), document (MongoDB), wide-column (Cassandra), and graph (Neo4j), with a use for each. Memory cue: KEY, DOCUMENT, COLUMNS, RELATIONSHIPS.</div>
+    <div class="gallery-card-caption">Four Major NoSQL Models</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-2').classList.add('open')">
+    <div class="slide-text" data-slide="?">Definition, key characteristics (row key, column families, rows can differ), and how it works (USERS and ORDERS example).</div>
+    <div class="gallery-card-caption">Wide-Column Database Model</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-3').classList.add('open')">
+    <div class="slide-text" data-slide="?">Example records (session:U101, cart:U101, theme:U101), design notes, and Redis as the example product.</div>
+    <div class="gallery-card-caption">Key-Value Model: How It Works</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-4').classList.add('open')">
+    <div class="slide-text" data-slide="?">Customer activity sample data, example databases (Cassandra, HBase, Bigtable, ScyllaDB), advantages and disadvantages.</div>
+    <div class="gallery-card-caption">Wide-Column: Sample Databases</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-5').classList.add('open')">
+    <div class="slide-text" data-slide="?">The customer document (Mika Reyes) showing a nested object (address) and an array (interests), plus BSON.</div>
+    <div class="gallery-card-caption">Document Model: Nested and Flexible Data</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-6').classList.add('open')">
+    <div class="slide-text" data-slide="?">Sample key-value data, Redis and DynamoDB, advantages and disadvantages.</div>
+    <div class="gallery-card-caption">Key-Value: Sample Databases</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-7').classList.add('open')">
+    <div class="slide-text" data-slide="?">Definition (nodes, edges, properties), key characteristics, how it works, and the ANA FRIENDS WITH MARK example.</div>
+    <div class="gallery-card-caption">Graph Database Model</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-8').classList.add('open')">
+    <div class="slide-text" data-slide="?">Defines node, edge, and property with examples, and use cases (social networks, recommendations, fraud links).</div>
+    <div class="gallery-card-caption">Graph Model: Nodes and Edges</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-9').classList.add('open')">
+    <div class="slide-text" data-slide="?">Sample graph (Ana, Mark, Lisa), Neo4j and Amazon Neptune, advantages and disadvantages.</div>
+    <div class="gallery-card-caption">Graph: Sample Databases</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-10').classList.add('open')">
+    <div class="slide-text" data-slide="?">Recap slide with user001 and user002 as key-value, a student document as JSON, and Redis vs MongoDB.</div>
+    <div class="gallery-card-caption">Key-Value and Document Models</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-11').classList.add('open')">
+    <div class="slide-text" data-slide="?">Recap slide with Cassandra for event data and large-scale workloads, and Neo4j for friends, recommendations, and fraud links.</div>
+    <div class="gallery-card-caption">Wide-Column and Graph Models</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-12').classList.add('open')">
+    <div class="slide-text" data-slide="?">A catalog where some products have size and color and others have warranty and specs. Answer: document model.</div>
+    <div class="gallery-card-caption">Scenario Question</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-13').classList.add('open')">
+    <div class="slide-text" data-slide="?">Database, collection, document, fields hierarchy, and BSON = Binary JSON.</div>
+    <div class="gallery-card-caption">MongoDB: Document-Oriented NoSQL</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-14').classList.add('open')">
+    <div class="slide-text" data-slide="?">Request flow (application, driver, server, database, collection) and the five key components.</div>
+    <div class="gallery-card-caption">MongoDB Architecture</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-15').classList.add('open')">
+    <div class="slide-text" data-slide="?">Maps relational terms to MongoDB (table to collection, row to document, column to field, primary key to _id).</div>
+    <div class="gallery-card-caption">MongoDB Structure & Vocabulary</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-16').classList.add('open')">
+    <div class="slide-text" data-slide="?">A flexible schema still needs careful design, validation, and choosing the model by requirements.</div>
+    <div class="gallery-card-caption">NoSQL Does Not Mean "No Rules"</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-17').classList.add('open')">
+    <div class="slide-text" data-slide="?">Splitting a dataset across Servers A, B, and C (sharding in MongoDB), with benefits and considerations.</div>
+    <div class="gallery-card-caption">Horizontal Scaling: Partitioning</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-18').classList.add('open')">
+    <div class="slide-text" data-slide="?">The Ana Cruz document: _id, fields, an array (skills), a Boolean (active), and BSON data types.</div>
+    <div class="gallery-card-caption">MongoDB Document: Important Details</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-19').classList.add('open')">
+    <div class="slide-text" data-slide="?">One server vs a Primary with two Secondaries, the failover scenario, and replication vs sharding.</div>
+    <div class="gallery-card-caption">MongoDB Architecture: Standalone and Replica Set</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-20').classList.add('open')">
+    <div class="slide-text" data-slide="?">Client, Mongos, Shard 1 (A-M) and Shard 2 (N-Z), with a Config Server and the student example.</div>
+    <div class="gallery-card-caption">MongoDB Architecture: Sharded Cluster</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-21').classList.add('open')">
+    <div class="slide-text" data-slide="?">Vocabulary list: mongod, mongos, config servers, replica set, shard, driver.</div>
+    <div class="gallery-card-caption">MongoDB Components: What Each Does</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-22').classList.add('open')">
+    <div class="slide-text" data-slide="?">Topic 1 (relational vs NoSQL) and Topic 2 (the four models and the MongoDB hierarchy).</div>
+    <div class="gallery-card-caption">Lesson Recap</div>
+  </div>
+  <div class="gallery-card" onclick="document.getElementById('lightbox-23').classList.add('open')">
+    <div class="slide-text" data-slide="?">Create, Read, Update, Delete with insertOne(), find(), updateOne(), and deleteOne().</div>
+    <div class="gallery-card-caption">MongoDB CRUD Operations</div>
+  </div>
+</div>
+      </section>
+
+      <section id="quick-review">
+        <h2>Quick Review</h2>
+
+        <details class="quick-review">
+          <summary>Click to reveal answers</summary>
+
+          **Q1: What are the four main types of NoSQL models?**
+          - Document, Key-Value, Column-Family, Graph
+
+          **Q2: How does MongoDB differ from RDBMS in terms of schema?**
+          - MongoDB has a flexible/dynamic schema; RDBMS has a fixed schema.
+
+          **Q3: When would you choose embedding over referencing in MongoDB?**
+          - Choose embedding when related data is always accessed together or is "one-to-few".
+
+          **Q4: What does the $lookup aggregation stage do?**
+          - It performs a left outer join to another collection.
+
+          **Q5: Since which MongoDB version are multi-document ACID transactions available?**
+          - Version 4.0
+        </details>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Database Systems: Lesson 1, NoSQL Models and MongoDB</p>
+    </footer>
+  </div>
+
+  <!-- Lightbox HTML -->
+  <div class="lightbox" id="lightbox" onclick="this.classList.remove('open')" role="dialog" aria-modal="true">
+    <button class="lightbox-close" aria-label="Close lightbox" onclick="event.stopPropagation(); document.getElementById('lightbox').classList.remove('open')">×</button>
+    <div class="slide-text" data-slide="?">Expanded image</div>
+  </div>
+
+  <script>
+    // Lightbox functionality
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+
+    document.querySelectorAll('figure img').forEach(img => {
+      img.addEventListener('click', (e) => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+      });
+    });
+
+    // Gallery card images
+    document.querySelectorAll('.gallery-card img').forEach(img => {
+      img.addEventListener('click', (e) => {
+        const lightboxNum = img.parentElement.getAttribute('onclick').match(/lightbox-(\d+)/)[1];
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        document.getElementById('lightbox-' + lightboxNum).classList.add('open');
+      });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+        lightbox.classList.remove('open');
+      }
+    });
+
+    // Close lightbox on overlay click (already handled above)
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('open');
+      }
+    });
+
+    // Theme support
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const html = document.documentElement;
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        html.setAttribute('data-theme', 'dark');
+      } else {
+        html.removeAttribute('data-theme');
+      }
+    }
+    applyTheme(prefersDark.matches);
+    prefersDark.addEventListener('change', (e) => applyTheme(e.matches));
+
+    // Code block copy buttons
+    document.querySelectorAll('.code-block').forEach(block => {
+      const header = block.querySelector('.code-header') || document.createElement('div');
+      if (!header.classList.contains('code-header')) {
+        header.className = 'code-header';
+        const codeContent = block.querySelector('.code-content');
+        if (!codeContent) {
+          const content = block.querySelector('pre code').outerHTML;
+          block.innerHTML = `<div class="code-header"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling?.parentElement?.previousElementSibling?.textContent || '').then(() => this.textContent='Copied!').catch(() => this.textContent='Copy')">Copy</button></div><div class="code-content"><pre code><code>${content}</code></pre></div>`;
+          block.querySelector('code').parentElement.style.whiteSpace = 'pre';
+        }
+        const copyBtn = document.createElement('button');
+        copyBtn.textContent = 'Copy';
+        copyBtn.onclick = async () => {
+          const codeEl = block.querySelector('code');
+          await navigator.clipboard.writeText(codeEl.textContent);
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+        };
+        header.appendChild(copyBtn);
+        block.insertBefore(header, block.firstChild);
+      }
+    });
+  </script>
+</body>
+</html>
