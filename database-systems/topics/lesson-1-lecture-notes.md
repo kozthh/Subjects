@@ -11,8 +11,6 @@
 - NoSQL is a **broad category**, not one single database or query language.
 - **Choose based on requirements, not popularity.**
 
-![Lesson recap](../assets/lesson-1/slide-1.svg)
-
 ### NoSQL does not mean "no rules"
 
 A flexible schema still needs careful data design.
@@ -22,8 +20,6 @@ A flexible schema still needs careful data design.
 - Different NoSQL products offer different **consistency, transaction, and query** capabilities.
 - Choose the model by **access patterns, relationships, availability, and operational needs**.
 - Pick the model that fits the problem, not the one that is easiest or most familiar. If a scenario fits SQL better, use SQL.
-
-![NoSQL does not mean no rules](../assets/lesson-1/slide-2.svg)
 
 ---
 
@@ -40,8 +36,6 @@ NoSQL databases are classified by **the way they organize data**.
 | Wide-Column | Rows with column families    | Cassandra | Large distributed data, event data   |
 | Graph       | Nodes + edges (+ properties) | Neo4j     | Relationships, recommendations, fraud links |
 
-![Four major NoSQL models](../assets/lesson-1/slide-3.svg)
-
 ### 2.1 Key-Value
 
 A simple model optimized for **lookup by key**. The key identifies the stored value.
@@ -57,8 +51,6 @@ theme:U101    →  "dark"
 - Often used for **cache and session state**.
 - Not ideal for arbitrary relational joins.
 
-![Key-value model: how it works](../assets/lesson-1/slide-4.svg)
-
 **Sample databases:** Redis (in-memory key-value), Amazon DynamoDB (managed NoSQL).
 
 | Advantages                          | Disadvantages                       |
@@ -66,8 +58,6 @@ theme:U101    →  "dark"
 | Very fast key-based access          | Limited complex searches by value   |
 | Simple structure, easy to use       | Relationships not handled naturally |
 | Useful for caching and sessions     | Not ideal for complex reporting     |
-
-![Key-value: sample databases](../assets/lesson-1/slide-5.svg)
 
 ### 2.2 Document
 
@@ -87,8 +77,6 @@ A document can **group data that is commonly read together**.
 - Related information may be **embedded** when it is commonly used together.
 - MongoDB stores documents using **BSON**, a binary-encoded document format.
 
-![Document model: nested and flexible data](../assets/lesson-1/slide-6.svg)
-
 ### 2.3 Wide-Column
 
 Organizes large amounts of data into **rows and column families**. Different rows can have different columns.
@@ -99,8 +87,6 @@ Organizes large amounts of data into **rows and column families**. Different row
 - Designed for **large, distributed datasets**.
 
 **How it works:** (1) a row key identifies the record, (2) related details are grouped in column families, (3) the application retrieves only the columns it needs. Example: USERS stores profile details, ORDERS stores order details.
-
-![Wide-column database model](../assets/lesson-1/slide-7.svg)
 
 **Sample data (customer activity):**
 
@@ -117,8 +103,6 @@ Organizes large amounts of data into **rows and column families**. Different row
 | Scales across multiple servers  | Data modeling can be complex                         |
 | Handles very large data volumes | Not ideal for many ad hoc queries                    |
 | Supports high write throughput  | Joins are limited compared with relational databases |
-
-![Wide-column: sample databases](../assets/lesson-1/slide-8.svg)
 
 ### 2.4 Graph
 
@@ -139,10 +123,6 @@ ANA ──FRIENDS WITH──> MARK
 - You need **both**: nodes give you something to represent, edges give you the relationships between them.
 - Useful for **social networks, recommendation paths, and fraud-connection analysis**.
 
-![Graph database model](../assets/lesson-1/slide-9.svg)
-
-![Graph model: nodes and edges](../assets/lesson-1/slide-10.svg)
-
 **Sample graph:** Ana, Mark, Lisa are the **nodes**. FRIENDS WITH (Ana–Mark) and KNOWS (Ana–Lisa, Mark–Lisa) are the **edges**.
 
 **Sample databases:** Neo4j (graph database), Amazon Neptune (managed graph DB).
@@ -153,13 +133,7 @@ ANA ──FRIENDS WITH──> MARK
 | Good for exploring connected data   | May be unnecessary for simple data           |
 | Can reveal patterns in networks     | Very large graphs can be challenging to scale |
 
-![Graph: sample databases](../assets/lesson-1/slide-11.svg)
-
 ### 2.5 Recap slides
-
-![Key-value and document models](../assets/lesson-1/slide-12.svg)
-
-![Wide-column and graph models](../assets/lesson-1/slide-13.svg)
 
 ---
 
@@ -178,8 +152,6 @@ ANA ──FRIENDS WITH──> MARK
 *A product catalog stores items with different details. Some products have size and color, while others have warranty and technical specifications. Which model fits best?*
 
 **Document.** Each product is its own document, fields can vary by document, and specifications can be nested. Catalogs are a typical document use case.
-
-![Scenario question](../assets/lesson-1/slide-14.svg)
 
 **How to pick:** match the **main problem** in the scenario.
 
@@ -212,8 +184,6 @@ DATABASE ── COLLECTION ── DOCUMENT
 
 A database contains collections, a collection contains documents, a document contains fields. **BSON = Binary JSON.**
 
-![MongoDB: document-oriented NoSQL](../assets/lesson-1/slide-15.svg)
-
 ### 4.2 Structure and vocabulary
 
 | Relational (SQL)    | MongoDB            |
@@ -225,8 +195,6 @@ A database contains collections, a collection contains documents, a document con
 | Primary key         | `_id` field        |
 
 The mapping is useful for learning, but **collections and documents are not identical to tables and rows**. The concepts are similar, while the structure and how you build it differ.
-
-![MongoDB structure and vocabulary](../assets/lesson-1/slide-16.svg)
 
 ### 4.3 Document details
 
@@ -248,8 +216,6 @@ The mapping is useful for learning, but **collections and documents are not iden
 
 **Lab pattern:** given a document, identify the fields, values, arrays, nested objects, and the `_id`.
 
-![MongoDB document: important details](../assets/lesson-1/slide-17.svg)
-
 ### 4.4 Architecture and request flow
 
 ```
@@ -259,8 +225,6 @@ APPLICATION → DRIVER → MONGODB SERVER → DATABASE → COLLECTION / DOCS
 1. The **application** sends a request through a MongoDB **driver**.
 2. The **server** processes the operation and reads or updates the requested data (CRUD).
 3. The **result is returned** to the application.
-
-![MongoDB architecture](../assets/lesson-1/slide-18.svg)
 
 ### 4.5 Components
 
@@ -276,8 +240,6 @@ APPLICATION → DRIVER → MONGODB SERVER → DATABASE → COLLECTION / DOCS
 
 `mongod` and `mongos` are real names, not typos.
 
-![MongoDB components](../assets/lesson-1/slide-19.svg)
-
 ### 4.6 Standalone and replica set
 
 A replica set maintains **multiple copies** for availability.
@@ -292,8 +254,6 @@ A replica set maintains **multiple copies** for availability.
 - Example (adding Ana Cruz): the data is saved on the Primary, the Secondaries replicate it, and if the Primary fails a Secondary can become the new Primary.
 - **Replication copies the same data for availability. Sharding distributes different data across servers.**
 
-![Standalone and replica set](../assets/lesson-1/slide-20.svg)
-
 ### 4.7 Horizontal scaling: partitioning
 
 **Partitioning** (often called **sharding** in MongoDB) splits a dataset into parts so different servers can store or process different portions.
@@ -301,8 +261,6 @@ A replica set maintains **multiple copies** for availability.
 - Server A: records for a selected range or key group. Server B: another partition. Server C: additional partition or capacity.
 - **Benefit:** distributes storage and workload.
 - **Considerations:** choosing a partition key, balancing data, routing requests.
-
-![Horizontal scaling: partitioning](../assets/lesson-1/slide-21.svg)
 
 ### 4.8 Sharded cluster
 
@@ -321,8 +279,6 @@ Client (Application) → Mongos (Query Router) → Shard 1 (Students A–M)
 
 **Result:** the data is split across shards, so the database can handle more data and more users at the same time.
 
-![MongoDB sharded cluster](../assets/lesson-1/slide-22.svg)
-
 ### 4.9 CRUD operations
 
 | Operation  | What it does            | Method        |
@@ -333,8 +289,6 @@ Client (Application) → Mongos (Query Router) → Shard 1 (Students A–M)
 | **D**elete | Remove a document       | `deleteOne()` |
 
 CRUD are **operations**, not separate NoSQL database models.
-
-![MongoDB CRUD operations](../assets/lesson-1/slide-23.svg)
 
 ---
 
