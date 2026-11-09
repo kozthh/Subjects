@@ -11,7 +11,7 @@
 - NoSQL is a **broad category**, not one single database or query language.
 - **Choose based on requirements, not popularity.**
 
-![Lesson recap](../assets/lesson-1/22-lesson-recap.png)
+![Lesson recap](../assets/lesson-1/slide-1.svg)
 
 ### NoSQL does not mean "no rules"
 
@@ -23,7 +23,7 @@ A flexible schema still needs careful data design.
 - Choose the model by **access patterns, relationships, availability, and operational needs**.
 - Pick the model that fits the problem, not the one that is easiest or most familiar. If a scenario fits SQL better, use SQL.
 
-![NoSQL does not mean no rules](../assets/lesson-1/16-nosql-does-not-mean-no-rules.png)
+![NoSQL does not mean no rules](../assets/lesson-1/slide-2.svg)
 
 ---
 
@@ -40,7 +40,7 @@ NoSQL databases are classified by **the way they organize data**.
 | Wide-Column | Rows with column families    | Cassandra | Large distributed data, event data   |
 | Graph       | Nodes + edges (+ properties) | Neo4j     | Relationships, recommendations, fraud links |
 
-![Four major NoSQL models](../assets/lesson-1/01-four-nosql-models.png)
+![Four major NoSQL models](../assets/lesson-1/slide-3.svg)
 
 ### 2.1 Key-Value
 
@@ -57,7 +57,7 @@ theme:U101    →  "dark"
 - Often used for **cache and session state**.
 - Not ideal for arbitrary relational joins.
 
-![Key-value model: how it works](../assets/lesson-1/03-key-value-how-it-works.png)
+![Key-value model: how it works](../assets/lesson-1/slide-4.svg)
 
 **Sample databases:** Redis (in-memory key-value), Amazon DynamoDB (managed NoSQL).
 
@@ -67,7 +67,7 @@ theme:U101    →  "dark"
 | Simple structure, easy to use       | Relationships not handled naturally |
 | Useful for caching and sessions     | Not ideal for complex reporting     |
 
-![Key-value: sample databases](../assets/lesson-1/06-key-value-sample-databases.png)
+![Key-value: sample databases](../assets/lesson-1/slide-5.svg)
 
 ### 2.2 Document
 
@@ -87,7 +87,7 @@ A document can **group data that is commonly read together**.
 - Related information may be **embedded** when it is commonly used together.
 - MongoDB stores documents using **BSON**, a binary-encoded document format.
 
-![Document model: nested and flexible data](../assets/lesson-1/05-document-model-nested-flexible.png)
+![Document model: nested and flexible data](../assets/lesson-1/slide-6.svg)
 
 ### 2.3 Wide-Column
 
@@ -100,7 +100,7 @@ Organizes large amounts of data into **rows and column families**. Different row
 
 **How it works:** (1) a row key identifies the record, (2) related details are grouped in column families, (3) the application retrieves only the columns it needs. Example: USERS stores profile details, ORDERS stores order details.
 
-![Wide-column database model](../assets/lesson-1/02-wide-column-database-model.png)
+![Wide-column database model](../assets/lesson-1/slide-7.svg)
 
 **Sample data (customer activity):**
 
@@ -118,7 +118,7 @@ Organizes large amounts of data into **rows and column families**. Different row
 | Handles very large data volumes | Not ideal for many ad hoc queries                    |
 | Supports high write throughput  | Joins are limited compared with relational databases |
 
-![Wide-column: sample databases](../assets/lesson-1/04-wide-column-sample-databases.png)
+![Wide-column: sample databases](../assets/lesson-1/slide-8.svg)
 
 ### 2.4 Graph
 
@@ -139,9 +139,9 @@ ANA ──FRIENDS WITH──> MARK
 - You need **both**: nodes give you something to represent, edges give you the relationships between them.
 - Useful for **social networks, recommendation paths, and fraud-connection analysis**.
 
-![Graph database model](../assets/lesson-1/07-graph-database-model.png)
+![Graph database model](../assets/lesson-1/slide-9.svg)
 
-![Graph model: nodes and edges](../assets/lesson-1/08-graph-model-nodes-and-edges.png)
+![Graph model: nodes and edges](../assets/lesson-1/slide-10.svg)
 
 **Sample graph:** Ana, Mark, Lisa are the **nodes**. FRIENDS WITH (Ana–Mark) and KNOWS (Ana–Lisa, Mark–Lisa) are the **edges**.
 
@@ -153,13 +153,13 @@ ANA ──FRIENDS WITH──> MARK
 | Good for exploring connected data   | May be unnecessary for simple data           |
 | Can reveal patterns in networks     | Very large graphs can be challenging to scale |
 
-![Graph: sample databases](../assets/lesson-1/09-graph-sample-databases.png)
+![Graph: sample databases](../assets/lesson-1/slide-11.svg)
 
 ### 2.5 Recap slides
 
-![Key-value and document models](../assets/lesson-1/10-key-value-and-document-models.png)
+![Key-value and document models](../assets/lesson-1/slide-12.svg)
 
-![Wide-column and graph models](../assets/lesson-1/11-wide-column-and-graph-models.png)
+![Wide-column and graph models](../assets/lesson-1/slide-13.svg)
 
 ---
 
@@ -179,7 +179,7 @@ ANA ──FRIENDS WITH──> MARK
 
 **Document.** Each product is its own document, fields can vary by document, and specifications can be nested. Catalogs are a typical document use case.
 
-![Scenario question](../assets/lesson-1/12-scenario-product-catalog.png)
+![Scenario question](../assets/lesson-1/slide-14.svg)
 
 **How to pick:** match the **main problem** in the scenario.
 
@@ -212,7 +212,7 @@ DATABASE ── COLLECTION ── DOCUMENT
 
 A database contains collections, a collection contains documents, a document contains fields. **BSON = Binary JSON.**
 
-![MongoDB: document-oriented NoSQL](../assets/lesson-1/13-mongodb-document-oriented-nosql.png)
+![MongoDB: document-oriented NoSQL](../assets/lesson-1/slide-15.svg)
 
 ### 4.2 Structure and vocabulary
 
@@ -226,7 +226,7 @@ A database contains collections, a collection contains documents, a document con
 
 The mapping is useful for learning, but **collections and documents are not identical to tables and rows**. The concepts are similar, while the structure and how you build it differ.
 
-![MongoDB structure and vocabulary](../assets/lesson-1/15-mongodb-structure-and-vocabulary.png)
+![MongoDB structure and vocabulary](../assets/lesson-1/slide-16.svg)
 
 ### 4.3 Document details
 
@@ -248,7 +248,7 @@ The mapping is useful for learning, but **collections and documents are not iden
 
 **Lab pattern:** given a document, identify the fields, values, arrays, nested objects, and the `_id`.
 
-![MongoDB document: important details](../assets/lesson-1/18-mongodb-document-important-details.png)
+![MongoDB document: important details](../assets/lesson-1/slide-17.svg)
 
 ### 4.4 Architecture and request flow
 
@@ -260,7 +260,7 @@ APPLICATION → DRIVER → MONGODB SERVER → DATABASE → COLLECTION / DOCS
 2. The **server** processes the operation and reads or updates the requested data (CRUD).
 3. The **result is returned** to the application.
 
-![MongoDB architecture](../assets/lesson-1/14-mongodb-architecture.png)
+![MongoDB architecture](../assets/lesson-1/slide-18.svg)
 
 ### 4.5 Components
 
@@ -276,7 +276,7 @@ APPLICATION → DRIVER → MONGODB SERVER → DATABASE → COLLECTION / DOCS
 
 `mongod` and `mongos` are real names, not typos.
 
-![MongoDB components](../assets/lesson-1/21-mongodb-components.png)
+![MongoDB components](../assets/lesson-1/slide-19.svg)
 
 ### 4.6 Standalone and replica set
 
@@ -292,7 +292,7 @@ A replica set maintains **multiple copies** for availability.
 - Example (adding Ana Cruz): the data is saved on the Primary, the Secondaries replicate it, and if the Primary fails a Secondary can become the new Primary.
 - **Replication copies the same data for availability. Sharding distributes different data across servers.**
 
-![Standalone and replica set](../assets/lesson-1/19-mongodb-standalone-and-replica-set.png)
+![Standalone and replica set](../assets/lesson-1/slide-20.svg)
 
 ### 4.7 Horizontal scaling: partitioning
 
@@ -302,7 +302,7 @@ A replica set maintains **multiple copies** for availability.
 - **Benefit:** distributes storage and workload.
 - **Considerations:** choosing a partition key, balancing data, routing requests.
 
-![Horizontal scaling: partitioning](../assets/lesson-1/17-horizontal-scaling-partitioning.png)
+![Horizontal scaling: partitioning](../assets/lesson-1/slide-21.svg)
 
 ### 4.8 Sharded cluster
 
@@ -321,7 +321,7 @@ Client (Application) → Mongos (Query Router) → Shard 1 (Students A–M)
 
 **Result:** the data is split across shards, so the database can handle more data and more users at the same time.
 
-![MongoDB sharded cluster](../assets/lesson-1/20-mongodb-sharded-cluster.png)
+![MongoDB sharded cluster](../assets/lesson-1/slide-22.svg)
 
 ### 4.9 CRUD operations
 
@@ -334,7 +334,7 @@ Client (Application) → Mongos (Query Router) → Shard 1 (Students A–M)
 
 CRUD are **operations**, not separate NoSQL database models.
 
-![MongoDB CRUD operations](../assets/lesson-1/23-mongodb-crud-operations.png)
+![MongoDB CRUD operations](../assets/lesson-1/slide-23.svg)
 
 ---
 
@@ -406,26 +406,26 @@ Save the slide screenshots in `database-systems/assets/lesson-1/` with these nam
 
 | # | File name |
 |---|-----------|
-| 01 | `01-four-nosql-models.png` |
-| 02 | `02-wide-column-database-model.png` |
-| 03 | `03-key-value-how-it-works.png` |
-| 04 | `04-wide-column-sample-databases.png` |
-| 05 | `05-document-model-nested-flexible.png` |
-| 06 | `06-key-value-sample-databases.png` |
-| 07 | `07-graph-database-model.png` |
-| 08 | `08-graph-model-nodes-and-edges.png` |
-| 09 | `09-graph-sample-databases.png` |
-| 10 | `10-key-value-and-document-models.png` |
-| 11 | `11-wide-column-and-graph-models.png` |
-| 12 | `12-scenario-product-catalog.png` |
-| 13 | `13-mongodb-document-oriented-nosql.png` |
-| 14 | `14-mongodb-architecture.png` |
-| 15 | `15-mongodb-structure-and-vocabulary.png` |
-| 16 | `16-nosql-does-not-mean-no-rules.png` |
-| 17 | `17-horizontal-scaling-partitioning.png` |
-| 18 | `18-mongodb-document-important-details.png` |
-| 19 | `19-mongodb-standalone-and-replica-set.png` |
-| 20 | `20-mongodb-sharded-cluster.png` |
-| 21 | `21-mongodb-components.png` |
-| 22 | `22-lesson-recap.png` |
-| 23 | `23-mongodb-crud-operations.png` |
+| 01 | `slide-1.svg` |
+| 02 | `slide-2.svg` |
+| 03 | `slide-3.svg` |
+| 04 | `slide-4.svg` |
+| 05 | `slide-5.svg` |
+| 06 | `slide-6.svg` |
+| 07 | `slide-7.svg` |
+| 08 | `slide-8.svg` |
+| 09 | `slide-9.svg` |
+| 10 | `slide-10.svg` |
+| 11 | `slide-11.svg` |
+| 12 | `slide-12.svg` |
+| 13 | `slide-13.svg` |
+| 14 | `slide-14.svg` |
+| 15 | `slide-15.svg` |
+| 16 | `slide-16.svg` |
+| 17 | `slide-17.svg` |
+| 18 | `slide-18.svg` |
+| 19 | `slide-19.svg` |
+| 20 | `slide-20.svg` |
+| 21 | `slide-21.svg` |
+| 22 | `slide-22.svg` |
+| 23 | `slide-23.svg` |
